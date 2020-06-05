@@ -27,7 +27,7 @@
 
 - 💹 **Node.js** — A JavaScript runtime built on Chrome's V8
 - 💼 **React Native** — A framework for building native apps using React.
-- ⛏ **Expo** — an open-source platform for making universal native apps for Android, iOS, and the web with JavaScript and React.
+- ⛏ **Expo** — An open-source platform for making native apps for Android, iOS with JS and React.
 - 🔷 **Typescript** — A typed superset of JavaScript that compiles to plain JavaScript
 
 ## 💻 Getting started
