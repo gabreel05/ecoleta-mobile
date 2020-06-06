@@ -29,14 +29,14 @@
 
 [//]: # 'Add the features of your project here:'
 
-##### This app features all the latest tools and practices in mobile development!
-
 - 💹 **Node.js** — A JavaScript runtime built on Chrome's V8
 - 💼 **React Native** — A framework for building native apps using React.
 - ⛏ **Expo** — An open-source platform for making native apps for Android, iOS with JS and React.
 - 🔷 **Typescript** — A typed superset of JavaScript that compiles to plain JavaScript
 
 ## 💻 Getting started
+
+##### Note: You need a emulator or a device connected to the computer. You can see this <a href="https://react-native.rocketseat.dev/">Docs</a>
 
 1. Clone this repo using <code>https://github.com/gabreel05/ecoleta-mobile.git</code>
 2. Move to the appropiate directory: <code>cd mobile</code>
