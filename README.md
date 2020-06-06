@@ -19,6 +19,12 @@
   <li><b>View points of collect filtered by state and city</b></li>
 </ul>
 
+<div>
+  <img src=".github/home.jpg" alt="Home" height="425">
+  <img src=".github/points.jpg" alt="Points" height="425">
+  <img src=".github/detail.jpg" alt="Detail" height="425">
+</div>
+
 ## 🧰 Techs
 
 [//]: # 'Add the features of your project here:'
