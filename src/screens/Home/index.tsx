@@ -7,60 +7,52 @@ import PickerSelect from 'react-native-picker-select';
 import { Picker } from "@react-native-community/picker";
 import axios from 'axios';
 
-interface IBGEResponseState {
+interface State {
+  id: number;
   sigla: string;
 }
 
-interface IBGEResponseCiy {
+interface City {
+  id: number;
   nome: string;
 }
 
 const Home: React.FC = () => {
   const navigation = useNavigation();
 
-  const [selectedState, setSelectedState] = useState<string>('0')
-  const [selectedCity, setSelectedCity] = useState<string>('0')
+  const [selectedState, setSelectedState] = useState('0')
+  const [selectedCity, setSelectedCity] = useState('0')
 
-  const [states, setStates] = useState<string[]>([]);
-  const [cities, setCities] = useState<string[]>([]);
+  const [state, setState] = useState('');
+  const [city, setCity] = useState('');
 
   useEffect(() => {
-    axios.get<IBGEResponseState[]>('https://servicodados.ibge.gov.br/api/v1/localidades/estados').then(response => {
-      const stateInitials = response.data.map(state => state.sigla);
-
-      setStates(stateInitials);
+    axios.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome').then(response => {
+      setState(response.data);
     })
   }, []);
 
   useEffect(() => {
     if (selectedState === '0') return;
 
-    axios.get<IBGEResponseCiy[]>('https://servicodados.ibge.gov.br/api/v1/localidades/estados/PR/municipios').then(response => {
-      const cityNames = response.data.map(city => city.nome);
-
-      setCities(cityNames);
+    axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedState}/municipios`).then(response => {
+      setCity(response.data);
     })
-  }, []);
+  }, [selectedState]);
 
   function handleNavigatePoints() {
     navigation.navigate('Points', {
-      selectedState,
-      selectedCity
+      state,
+      city
     });
   }
 
-  function handleSelectState(value: React.ReactText) {
-    const state = value.toString()
-
-    setSelectedState(state);
-    
-    console.log(state);
+  function handleSelectState(value: string) {
+    setSelectedState(value);
   }
 
-  function handleSelectedCity(value: React.ReactText) {
-    const city = value.toString()
-
-    setSelectedCity(city);
+  function handleSelectedCity(value: string) {
+    setSelectedCity(value);
   }
 
   return (
@@ -79,6 +71,25 @@ const Home: React.FC = () => {
         </View>
 
         <View style={styles.footer}>
+
+        <TextInput
+            style={styles.input}
+            placeholder="Digite o estado"
+            value={state.toString()}
+            maxLength={2}
+            autoCapitalize="characters"
+            autoCorrect={false}
+            onChangeText={setState}
+          />
+
+          <TextInput
+            style={styles.input}
+            placeholder="Digite a cidade"
+            value={city.toString()}
+            autoCorrect={false}
+            onChangeText={setCity}
+          />
+
           <RectButton style={styles.button} onPress={handleNavigatePoints}>
             <View style={styles.buttonIcon}>
                 <Icon name="arrow-right" color="#fff" size={24} />
