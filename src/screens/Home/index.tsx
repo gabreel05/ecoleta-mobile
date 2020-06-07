@@ -1,10 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Feather as Icon } from '@expo/vector-icons';
-import { View, Image, ImageBackground, StyleSheet, Text, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import {
+  View,
+  Image,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TextInput,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation } from '@react-navigation/native';
 import PickerSelect from 'react-native-picker-select';
-import { Picker } from "@react-native-community/picker";
+import { Picker } from '@react-native-community/picker';
 import axios from 'axios';
 
 interface State {
@@ -20,30 +29,38 @@ interface City {
 const Home: React.FC = () => {
   const navigation = useNavigation();
 
-  const [selectedState, setSelectedState] = useState('0')
-  const [selectedCity, setSelectedCity] = useState('0')
+  const [selectedState, setSelectedState] = useState('0');
+  const [selectedCity, setSelectedCity] = useState('0');
 
   const [state, setState] = useState('');
   const [city, setCity] = useState('');
 
   useEffect(() => {
-    axios.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome').then(response => {
-      setState(response.data);
-    })
+    axios
+      .get(
+        'https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome',
+      )
+      .then((response) => {
+        setState(response.data);
+      });
   }, []);
 
   useEffect(() => {
     if (selectedState === '0') return;
 
-    axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedState}/municipios`).then(response => {
-      setCity(response.data);
-    })
+    axios
+      .get(
+        `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedState}/municipios`,
+      )
+      .then((response) => {
+        setCity(response.data);
+      });
   }, [selectedState]);
 
   function handleNavigatePoints() {
     navigation.navigate('Points', {
       state,
-      city
+      city,
     });
   }
 
@@ -56,23 +73,29 @@ const Home: React.FC = () => {
   }
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1 }}behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-      <ImageBackground 
-        source={require('../../assets/home-background.png')} 
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    >
+      <ImageBackground
+        source={require('../../assets/home-background.png')}
         style={styles.container}
         imageStyle={{ width: 274, height: 368 }}
       >
         <View style={styles.main}>
-          <Image source={require('../../assets/logo.png')}/>
+          <Image source={require('../../assets/logo.png')} />
           <View>
-            <Text style={styles.title}>Seu marketplace de coleta de resíduos</Text>
-            <Text style={styles.description}>Ajudamos pessoas a encontrarem pontos de coleta de forma eficiente</Text>
+            <Text style={styles.title}>
+              Seu marketplace de coleta de resíduos
+            </Text>
+            <Text style={styles.description}>
+              Ajudamos pessoas a encontrarem pontos de coleta de forma eficiente
+            </Text>
           </View>
         </View>
 
         <View style={styles.footer}>
-
-        <TextInput
+          <TextInput
             style={styles.input}
             placeholder="Digite o estado"
             value={state.toString()}
@@ -92,7 +115,7 @@ const Home: React.FC = () => {
 
           <RectButton style={styles.button} onPress={handleNavigatePoints}>
             <View style={styles.buttonIcon}>
-                <Icon name="arrow-right" color="#fff" size={24} />
+              <Icon name="arrow-right" color="#fff" size={24} />
             </View>
             <Text style={styles.buttonText}>Entrar</Text>
           </RectButton>
@@ -158,7 +181,7 @@ const styles = StyleSheet.create({
     width: 60,
     backgroundColor: 'rgba(0, 0, 0, 0.1)',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
 
   buttonText: {
@@ -169,7 +192,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto_500Medium',
     fontSize: 16,
   },
-
 });
 
 export default Home;
